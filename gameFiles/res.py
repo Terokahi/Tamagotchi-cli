@@ -1,4 +1,4 @@
-
+import gameFiles.Tamagotchi as Tamagotchi
 
 sprite ="""
   .^._.^.
@@ -7,7 +7,7 @@ sprite ="""
  .'     '.
  |/     \|
   \ /-\ /
-   V  V
+   V   V
 """
 sprite_left_left = """
   .^._.^.
@@ -16,7 +16,7 @@ sprite_left_left = """
  .'     '.
  |/     \|
  | /-\ -/
- |/  |/
+ |/   |/
 """
 
 sprite_left = """
@@ -26,7 +26,7 @@ sprite_left = """
  .'     '.
  |/     \|
  | /-\ -/
-  V   V
+ |/   |/
 """
 sprite_right = """
   .^._.^.
@@ -35,17 +35,17 @@ sprite_right = """
  .'     '.
  |/     \|
   \- /-\ |
-    V   V
+   \|   \|
 """
 
 sprite_dead ="""
   .^._.^.
   | x x |
   (.---.)
- .'    '.
+ .'     '.
  |/     \|
   \ /-\ /
-   V  V
+   V   V
 """
 
 sprite_idle = [
@@ -64,4 +64,19 @@ title = """
                            __/ |                      
                           |___/                       
 """
+
+sprite_disp = 0
+
+def animation():
+    global sprite_disp
+
+    # reset Sprite
+    if sprite_disp == len(sprite_idle):
+        sprite_disp = 0
+        
+    print(sprite_disp)
+    print(sprite_idle[sprite_disp])
+    for stat in Tamagotchi.stats:
+        print(f"{stat[0]}\t: {stat[1]:.0f}")
+    sprite_disp += 1
 

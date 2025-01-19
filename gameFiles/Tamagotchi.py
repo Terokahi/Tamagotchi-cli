@@ -1,11 +1,18 @@
 import os
+import random as rng
 
 import gameFiles.res as res
 
-health = ["Health", 100]
-hunger = ["Hunger", 100]
-fun = ["Fun", 100]
-energy = ["Energy", 100]
+MAX_GAIN = 40
+MIN_GAIN = 20
+
+MAX_LOSS = -.25
+MIN_LOSS = 0
+
+health = ["Health", 100.0]
+hunger = ["Hunger", 100.0]
+fun = ["Fun", 100.0]
+energy = ["Energy", 100.0]
 
 stats = [health, hunger, fun, energy]
 
@@ -15,7 +22,7 @@ def mod_stat(stat):
     """
     for i in range(len(stats)):
         if i == stat:
-            stats[i][1] += 50
+            stats[i][1] += rng.uniform(MIN_GAIN, MAX_GAIN)
             if stats[i][1] >= 100:
                 stats[i][1] = 100
         else:
@@ -26,7 +33,7 @@ def mod_stat(stat):
 
 def const_mod_stat():
     for i in range(len(stats)):        
-        stats[i][1] += -0.04
+        stats[i][1] += round(rng.uniform(MIN_LOSS, MAX_LOSS), 2)
         
         if stats[i][1] <= 0:
             death(i)

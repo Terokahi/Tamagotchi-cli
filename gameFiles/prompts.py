@@ -2,7 +2,7 @@
 
 # menu inputs
 menu = """
-(n)ew game
+(s)tart
 (l)oad
 (d)elete
 
