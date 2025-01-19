@@ -2,6 +2,7 @@ import os
 import random as rng
 
 import gameFiles.res as res
+import main
 
 MAX_GAIN = 40
 MIN_GAIN = 20
@@ -67,3 +68,4 @@ def death(stat):
             # Energy is 0
             print("your Tamagotchi didn't sleep enough and died")
             quit()
+    main.main()

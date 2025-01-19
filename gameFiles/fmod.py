@@ -23,7 +23,7 @@ def load_game():
     # try to open the file with the given file Name
     try:
         sav_load = open(sav_dir+sav_name+f_end, "br")
-        pickle.load(sav_load)
+        Tamagotchi.stats = pickle.load(sav_load)
         sav_load.close()
         # return flag to show load was succesful
         return True

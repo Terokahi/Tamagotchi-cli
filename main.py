@@ -68,6 +68,7 @@ def main():
     This is the Main Menu Loop
     """
     while True:
+        os.system("clear")
 
         print(res.title)
         choice = input(prompts.menu).lower()
@@ -76,6 +77,8 @@ def main():
         match choice:
             case 's':
                 # start a new game
+                for stat in range(len(Tamagotchi.stats)):
+                    Tamagotchi.stats[stat][1] = 100
                 print("New Game")
                 time.sleep(MENU_SLEEP_TIME)
                 start_loop()
@@ -83,14 +86,16 @@ def main():
 
             case 'l':
                 # load a game
-                if fmod.load_game():
+                loadFlag = fmod.load_game()
+                if loadFlag:
                     print("Load a Save")            
                     time.sleep(MENU_SLEEP_TIME)
                     start_loop()
 
             case 'd':
                 # delete a game
-                if fmod.del_game():
+                delFlag = fmod.del_game()
+                if delFlag:
                     print("Delete a Save")
                 time.sleep(MENU_SLEEP_TIME)
 
