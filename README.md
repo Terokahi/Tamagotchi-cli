@@ -1,6 +1,13 @@
 # What can it do?
 for now, nothing really, besides lose stats and die (and dance!)
 
+# What's next?
+multiple things, in order of priority:
+- actually being able to save and load a game
+- being able to access the shop and buying stuff
+- bought Items should have the desired effect on the Tamagotchi
+- Implementing Tkinter so you can choose if you want a gui or cli
+
 # What will it be able to do?
 I don't really know, there will more then likely be shop,
 with Items that modify the tamagotchi (Make it move faster, lose more/less stats and maybe more.
