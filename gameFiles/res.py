@@ -1,3 +1,10 @@
+"""
+Nothing here besides all the sprites used Modify the sprites as you see fit
+
+To display a animation put the sprites into the array "sprite_idle[]"
+the function "animation()" will do the magic work of printing them at the right time
+"""
+
 import gameFiles.Tamagotchi as Tamagotchi
 
 sprite ="""
@@ -68,15 +75,18 @@ title = """
 sprite_disp = 0
 
 def animation():
+    # get the current sprite to display
     global sprite_disp
 
-    # reset Sprite
+    # reset Sprite if end of the sprite array was reached
     if sprite_disp == len(sprite_idle):
         sprite_disp = 0
-        
-    print(sprite_disp)
+    
+    # output the current "Frame"
     print(sprite_idle[sprite_disp])
+    # output the stats
     for stat in Tamagotchi.stats:
         print(f"{stat[0]}\t: {stat[1]:.0f}")
+    
+    # raise this to show the next sprite
     sprite_disp += 1
-

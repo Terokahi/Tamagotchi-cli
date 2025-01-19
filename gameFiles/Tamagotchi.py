@@ -19,6 +19,7 @@ stats = [health, hunger, fun, energy]
 def mod_stat(stat):
     """
     mods the given stat by +50 and the rest -10
+    Todo: modifiers
     """
     for i in range(len(stats)):
         if i == stat:
@@ -32,6 +33,10 @@ def mod_stat(stat):
                 death(i)
 
 def const_mod_stat():
+    """
+    Constantly mod the stats of the Tamagotchi
+    Todo: modifiers
+    """
     for i in range(len(stats)):        
         stats[i][1] += round(rng.uniform(MIN_LOSS, MAX_LOSS), 2)
         
@@ -39,19 +44,26 @@ def const_mod_stat():
             death(i)
 
 def death(stat):
+    """
+    call to print the proper death statement
+    """
     os.system("clear")
     print(res.sprite_dead)
 
     match stat:
         case 0:
+            # Health is 0
             print("your Tamagotchi died")
             quit()
         case 1:
+            # Hunger is 0
             print("your Tamagotchi starved")
             quit()
         case 2:
+            # Fun is 0
             print("your Tamagotchi got bored to death")
             quit()
         case 3:
+            # Energy is 0
             print("your Tamagotchi didn't sleep enough and died")
             quit()
