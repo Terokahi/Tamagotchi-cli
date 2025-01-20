@@ -2,15 +2,29 @@ import os
 import time
 import select
 import sys
+from configparser import ConfigParser
+
+if os.system == "win32" or "win64":
+    import msvcrt
 
 import gameFiles.Tamagotchi as Tamagotchi
 import gameFiles.fmod as fmod
 import gameFiles.prompts as prompts
 import gameFiles.res as res
 
-MENU_SLEEP_TIME = .8
-GAME_SLEEP_TIME = .5
+fname = "config.ini"
+cfg = ConfigParser()
+cfg.read(fname)
 
+MENU_SLEEP_TIME = cfg.getfloat("TIMING", "menu_sleep_time")
+GAME_SLEEP_TIME = cfg.getfloat("TIMING", "game_sleep_time")
+
+
+def clear_screen():
+    if os.system == "win32" or "win64":
+        os.system("cls")
+    else:
+        os.system("clear")
 
 
 def non_blocking_input():
@@ -19,13 +33,20 @@ def non_blocking_input():
     """
     print(prompts.interaction, end='', flush=True)  # Print prompt
     # Use select to determine if input is available
-    ready, _, _ = select.select([sys.stdin], [], [], 0)  # pause for .5 seconds
-    if ready:
-        time.sleep(GAME_SLEEP_TIME)
-        return sys.stdin.readline().strip().lower()  # Read input
+    if sys.platform == "win32" or "win64":
+        if msvcrt.kbhit():
+            key = msvcrt.getch()
+            return key.decode("utf-8")
+        else:
+            Tamagotchi.const_mod_stat()
     else:
-        time.sleep(GAME_SLEEP_TIME)
-        Tamagotchi.const_mod_stat()
+        ready, _, _ = select.select([sys.stdin], [], [], 0)  # pause for .5 seconds
+        if ready:
+            time.sleep(GAME_SLEEP_TIME)
+            return sys.stdin.readline().strip().lower()  # Read input
+        else:
+            time.sleep(GAME_SLEEP_TIME)
+            Tamagotchi.const_mod_stat()
 
 
 
@@ -34,7 +55,7 @@ def start_loop():
     This is the game loop
     """
     while True:
-        os.system("clear")
+        clear_screen()
         res.animation()
 
         # get input
@@ -60,19 +81,19 @@ def start_loop():
 
             case 'x':
                 break
-
-        os.system("clear")
+        time.sleep(GAME_SLEEP_TIME)
+        clear_screen()
 
 def main():
     """
     This is the Main Menu Loop
     """
     while True:
-        os.system("clear")
+        clear_screen()
 
         print(res.title)
         choice = input(prompts.menu).lower()
-        os.system("clear")
+        clear_screen()
 
         match choice:
             case 's':
@@ -117,5 +138,5 @@ def main():
                 continue
 
 if __name__ == "__main__":
-    os.system("clear")
+    clear_screen()
     main()
