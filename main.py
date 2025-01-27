@@ -14,68 +14,83 @@ glob_timer = 0
 
 class InputThread(threading.Thread):
     def __init__(self):
+        """
+        Initializes the input thread for handling user inputs asynchronously.
+        """
         super(InputThread, self).__init__()
         self.daemon = True
         self.lastUserInput = ""
 
     def run(self):
         """
-        This is the game loop
+        Continuously receives user input and performs actions based on input.
         """
         while True:
             os.system('clear')
-            # get input
-            self.lastUserInput = input()
-            match self.lastUserInput.lower(): # non_blocking_input():
+            self.lastUserInput = input(prompts.interaction).lower()
+            match self.lastUserInput:
                 case 'a':
+                    # Save the game state
                     fmod.save_game()
 
                 case 'f':
-                    Tamagotchi.mod_stat(1)  
+                    # Modify hunger stat
+                    Tamagotchi.mod_stat(1)
 
                 case 'h':
+                    # Modify health stat
                     Tamagotchi.mod_stat(0)
 
                 case 'i':
+                    # Placeholder for inventory
                     print("THE INVENTORY WILL BE HERE!!! (WIP)")
                     time.sleep(1.5)
 
                 case 'p':
+                    # Modify fun stat
                     Tamagotchi.mod_stat(2)
-                
+
                 case 's':
+                    # Modify sleep stat
                     Tamagotchi.mod_stat(3)
-                
+
                 case 't':
+                    # Placeholder for store
                     print("THE STORE WILL BE HERE!!! (WIP)")
                     time.sleep(1.5)
 
                 case 'x':
+                    # Exit the loop
                     break
 
 def gameLoop():
+    """
+    Main game loop that handles the game logic and updates.
+    """
     global glob_timer
     asyncInput = InputThread()
     asyncInput.start()
     while True:
         print(prompts.interaction)
         res.animation()
-        print(asyncInput.lastUserInput)
 
         if glob_timer == 5:
+            # Periodically modify stats
             Tamagotchi.const_mod_stat()
 
         if asyncInput.lastUserInput == 'x':
+            # Exit the game loop
             asyncInput.join()
             break
+
         glob_timer += 0.5
+        time.sleep(GAME_SLEEP_TIME)
         os.system('clear')
 
 def main():
     """
-    This is the Main Menu Loop
+    Main menu loop for starting, loading, and managing the game.
     """
-    gameThread = InputThread()
     while True:
         os.system("clear")
 
@@ -85,41 +100,41 @@ def main():
 
         match choice:
             case 's':
-                # start a new game
+                # Start a new game
                 for stat in range(len(Tamagotchi.stats)):
                     Tamagotchi.stats[stat][1] = 100
                 print("New Game")
-                time.sleep(MENU_SLEEP_TIME)    
+                time.sleep(MENU_SLEEP_TIME)
                 gameLoop()
 
             case 'l':
-                # load a game
+                # Load a game
                 loadFlag = fmod.load_game()
                 if loadFlag:
-                    print("Load a Save")            
+                    print("Load a Save")
                     time.sleep(MENU_SLEEP_TIME)
                     gameLoop()
 
             case 'd':
-                # delete a game
+                # Delete a game
                 delFlag = fmod.del_game()
                 if delFlag:
                     print("Delete a Save")
                 time.sleep(MENU_SLEEP_TIME)
 
             case 'o':
-                # show options (none as of now)
+                # Show options
                 print("These are options!")
                 time.sleep(MENU_SLEEP_TIME)
-            
+
             case 'x':
-                # quit the game
+                # Quit the game
                 print("Goodbye")
                 time.sleep(MENU_SLEEP_TIME)
                 exit()
-            
+
             case _:
-                # input not valid
+                # Handle invalid input
                 print("Invalid Input")
                 time.sleep(MENU_SLEEP_TIME)
                 continue
@@ -127,3 +142,4 @@ def main():
 if __name__ == "__main__":
     os.system("clear")
     main()
+
