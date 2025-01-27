@@ -14,5 +14,5 @@ e(x)it
 # game inputs
 interaction = """
 (h)eal      (f)eed      (p)lay      (s)leep     
-s(t)ore     s(a)ve      e(x)it
+(i)nventory s(t)ore     s(a)ve      e(x)it
 """

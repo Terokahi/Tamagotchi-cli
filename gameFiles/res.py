@@ -4,6 +4,7 @@ Nothing here besides all the sprites used Modify the sprites as you see fit
 To display a animation put the sprites into the array "sprite_idle[]"
 the function "animation()" will do the magic work of printing them at the right time
 """
+import time
 
 import gameFiles.Tamagotchi as Tamagotchi
 
@@ -90,3 +91,4 @@ def animation():
     
     # raise this to show the next sprite
     sprite_disp += 1
+    time.sleep(0.5)

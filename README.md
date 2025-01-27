@@ -3,14 +3,16 @@ for now, nothing really, besides lose stats and die (and dance!)
 
 # What's next?
 multiple things, in order of priority:
-- actually being able to save and load a game
+- actually being able to save and load a game (done)
 - being able to access the shop and buying stuff
-- bought Items should have the desired effect on the Tamagotchi
 - Implementing Tkinter so you can choose if you want a gui or cli
+- bought Items should have the desired effect on the Tamagotchi
+- Implement Threading for os independency (partially done)
+- think of small games to make money (send the Tamagotchi working?)
 
 # What will it be able to do?
 I don't really know, there will more then likely be shop,
-with Items that modify the tamagotchi (Make it move faster, lose more/less stats and maybe more.
+with Items that modify the tamagotchi (Make it move faster, lose more/less stats and maybe more.)
 
 # What do I need to run it?
 besides a working python installation nothing,

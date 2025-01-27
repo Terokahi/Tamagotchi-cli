@@ -1,7 +1,6 @@
 import os
 import time
-import select
-import sys
+import threading
 
 import gameFiles.Tamagotchi as Tamagotchi
 import gameFiles.fmod as fmod
@@ -11,62 +10,72 @@ import gameFiles.res as res
 MENU_SLEEP_TIME = .8
 GAME_SLEEP_TIME = .5
 
+glob_timer = 0
 
+class InputThread(threading.Thread):
+    def __init__(self):
+        super(InputThread, self).__init__()
+        self.daemon = True
+        self.lastUserInput = ""
 
-def non_blocking_input():
-    """
-    get a "un-blocked" input
-    """
-    print(prompts.interaction, end='', flush=True)  # Print prompt
-    # Use select to determine if input is available
-    ready, _, _ = select.select([sys.stdin], [], [], 0)  # pause for .5 seconds
-    if ready:
-        time.sleep(GAME_SLEEP_TIME)
-        return sys.stdin.readline().strip().lower()  # Read input
-    else:
-        time.sleep(GAME_SLEEP_TIME)
-        Tamagotchi.const_mod_stat()
+    def run(self):
+        """
+        This is the game loop
+        """
+        while True:
+            os.system('clear')
+            # get input
+            self.lastUserInput = input()
+            match self.lastUserInput.lower(): # non_blocking_input():
+                case 'a':
+                    fmod.save_game()
 
+                case 'f':
+                    Tamagotchi.mod_stat(1)  
 
+                case 'h':
+                    Tamagotchi.mod_stat(0)
 
-def start_loop():
-    """
-    This is the game loop
-    """
+                case 'i':
+                    print("THE INVENTORY WILL BE HERE!!! (WIP)")
+                    time.sleep(1.5)
+
+                case 'p':
+                    Tamagotchi.mod_stat(2)
+                
+                case 's':
+                    Tamagotchi.mod_stat(3)
+                
+                case 't':
+                    print("THE STORE WILL BE HERE!!! (WIP)")
+                    time.sleep(1.5)
+
+                case 'x':
+                    break
+
+def gameLoop():
+    global glob_timer
+    asyncInput = InputThread()
+    asyncInput.start()
     while True:
-        os.system("clear")
+        print(prompts.interaction)
         res.animation()
+        print(asyncInput.lastUserInput)
 
-        # get input
-        match non_blocking_input():
-            case 'h':
-                Tamagotchi.mod_stat(0)
-            
-            case 'f':
-                Tamagotchi.mod_stat(1)
-            
-            case 'p':
-                Tamagotchi.mod_stat(2)
-            
-            case 's':
-                Tamagotchi.mod_stat(3)
-            
-            case 't':
-                print("THE STORE WILL BE HERE!!! (WIP)")
-                time.sleep(1.5)
+        if glob_timer == 5:
+            Tamagotchi.const_mod_stat()
 
-            case 'a':
-                fmod.save_game()
-
-            case 'x':
-                break
-
-        os.system("clear")
+        if asyncInput.lastUserInput == 'x':
+            asyncInput.join()
+            break
+        glob_timer += 0.5
+        os.system('clear')
 
 def main():
     """
     This is the Main Menu Loop
     """
+    gameThread = InputThread()
     while True:
         os.system("clear")
 
@@ -80,9 +89,8 @@ def main():
                 for stat in range(len(Tamagotchi.stats)):
                     Tamagotchi.stats[stat][1] = 100
                 print("New Game")
-                time.sleep(MENU_SLEEP_TIME)
-                start_loop()
-                
+                time.sleep(MENU_SLEEP_TIME)    
+                gameLoop()
 
             case 'l':
                 # load a game
@@ -90,7 +98,7 @@ def main():
                 if loadFlag:
                     print("Load a Save")            
                     time.sleep(MENU_SLEEP_TIME)
-                    start_loop()
+                    gameLoop()
 
             case 'd':
                 # delete a game
