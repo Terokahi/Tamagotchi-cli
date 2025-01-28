@@ -38,7 +38,7 @@ def const_mod_stat():
     Constantly mod the stats of the Tamagotchi
     Todo: modifiers
     """
-    for i in range(len(stats)):        
+    for i in range(len(stats)):
         stats[i][1] += round(rng.uniform(MIN_LOSS, MAX_LOSS), 2)
         
         if stats[i][1] <= 0:

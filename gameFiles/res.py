@@ -7,6 +7,7 @@ the function "animation()" will do the magic work of printing them at the right 
 import time
 
 import gameFiles.Tamagotchi as Tamagotchi
+import gameFiles.prompts as prompts
 
 sprite ="""
   .^._.^.
@@ -75,20 +76,27 @@ title = """
 
 sprite_disp = 0
 
-def animation():
-    # get the current sprite to display
-    global sprite_disp
+CURSOR_UP = "\033[1A"
+CLEAR = "\x1b[2K"
 
-    # reset Sprite if end of the sprite array was reached
-    if sprite_disp == len(sprite_idle):
-        sprite_disp = 0
-    
-    # output the current "Frame"
-    print(sprite_idle[sprite_disp])
-    # output the stats
-    for stat in Tamagotchi.stats:
-        print(f"{stat[0]}\t: {stat[1]:.0f}")
-    
-    # raise this to show the next sprite
-    sprite_disp += 1
-    time.sleep(0.5)
+def animation():
+  # get the current sprite to display
+  global sprite_disp
+
+  # reset Sprite if end of the sprite array was reached
+  if sprite_disp == len(sprite_idle):
+      sprite_disp = 0
+  print(prompts.interaction)
+
+  # output the stats
+  for stat in Tamagotchi.stats:
+      print(f"{stat[0]}\t: {stat[1]:.0f}")
+  
+  # output the current "Frame"
+  print(sprite_idle[sprite_disp], end="\r")
+  for i in range(17):
+    print(CURSOR_UP + CLEAR, end="")
+
+  # raise this to show the next sprite
+  sprite_disp += 1
+  time.sleep(0.5)

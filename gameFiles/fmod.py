@@ -16,6 +16,8 @@ def load_game():
     """
     # print all of the existing save files
     sav_files = [f for f in listdir(sav_dir) if path.isfile(path.join(sav_dir, f))]
+
+    print("Existing saves: ")
     for file in sav_files:
         print(file[:-len(f_end)])
 
@@ -38,6 +40,7 @@ def del_game():
     """
     # print all of the existing save files
     sav_files = [f for f in listdir(sav_dir) if path.isfile(path.join(sav_dir, f))]
+    print("Existing saves: ")
     for file in sav_files:
         print(file[:-4])
     
@@ -56,6 +59,7 @@ def save_game():
     """
     # print all of the existing save files
     sav_files = [f for f in listdir(sav_dir) if path.isfile(path.join(sav_dir, f))]
+    print("Existing saves: ")
     for file in sav_files:
         print(file[:-4])
     

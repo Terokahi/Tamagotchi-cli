@@ -19,19 +19,19 @@ class InputThread(threading.Thread):
         """
         super(InputThread, self).__init__()
         self.daemon = True
-        self.lastUserInput = ""
+        self.lock = threading.Lock()
 
+        self.lastUserInput = ""
 
     def run(self):
         """
         Continuously receives user input and performs actions based on input.
         """
         while True:
-            self.lastUserInput = input(prompts.interaction).lower()
+            self.lastUserInput = input().lower()
             match self.lastUserInput:
                 case 'a':
-                    # Save the game state
-                    fmod.save_game()
+                    self.lock.acquire()
 
                 case 'f':
                     # Modify hunger stat
@@ -43,8 +43,7 @@ class InputThread(threading.Thread):
 
                 case 'i':
                     # Placeholder for inventory
-                    print("THE INVENTORY WILL BE HERE!!! (WIP)")
-                    time.sleep(1.5)
+                    self.lock.acquire()
 
                 case 'p':
                     # Modify fun stat
@@ -56,9 +55,7 @@ class InputThread(threading.Thread):
 
                 case 't':
                     # Placeholder for store
-                    print("THE STORE WILL BE HERE!!! (WIP)")
-                    threading.main_thread()
-                    time.sleep(1.5)
+                    self.lock.acquire()
 
                 case 'x':
                     # Exit the loop
@@ -72,7 +69,6 @@ def gameLoop():
     asyncInput = InputThread()
     asyncInput.start()
     while True:
-        print(prompts.interaction)
         res.animation()
 
         if glob_timer % 2:
@@ -80,6 +76,23 @@ def gameLoop():
             Tamagotchi.const_mod_stat()
             if glob_timer == 200:
                 glob_timer = 0
+        
+        if asyncInput.lastUserInput == 'a':
+            print("Press enter to continue to input file name\n")
+            fmod.save_game()
+            asyncInput.lock.release()
+        
+        if asyncInput.lastUserInput == 'i':
+            print("THE INVENTORY WILL BE HERE!!! (WIP)")
+            time.sleep(1.5)
+            asyncInput.lastUserInput = ''
+            asyncInput.lock.release()
+
+        if asyncInput.lastUserInput == 't':
+            print("THE STORE WILL BE HERE!!! (WIP)")
+            time.sleep(1.5)
+            asyncInput.lastUserInput=""
+            asyncInput.lock.release()
 
         if asyncInput.lastUserInput == 'x':
             # Exit the game loop
@@ -87,8 +100,6 @@ def gameLoop():
             break
 
         glob_timer += 0.5
-        time.sleep(GAME_SLEEP_TIME)
-        os.system('clear')
 
 def main():
     """
@@ -99,7 +110,7 @@ def main():
 
         print(res.title)
         choice = input(prompts.menu).lower()
-        os.system("clear")
+        os.system('clear')
 
         match choice:
             case 's':
