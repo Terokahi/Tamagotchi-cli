@@ -7,7 +7,7 @@ import gameFiles.fmod as fmod
 import gameFiles.prompts as prompts
 import gameFiles.res as res
 
-MENU_SLEEP_TIME = .8
+MENU_SLEEP_TIME = 1
 GAME_SLEEP_TIME = .5
 
 glob_timer = 0
@@ -21,12 +21,12 @@ class InputThread(threading.Thread):
         self.daemon = True
         self.lastUserInput = ""
 
+
     def run(self):
         """
         Continuously receives user input and performs actions based on input.
         """
         while True:
-            os.system('clear')
             self.lastUserInput = input(prompts.interaction).lower()
             match self.lastUserInput:
                 case 'a':
@@ -57,6 +57,7 @@ class InputThread(threading.Thread):
                 case 't':
                     # Placeholder for store
                     print("THE STORE WILL BE HERE!!! (WIP)")
+                    threading.main_thread()
                     time.sleep(1.5)
 
                 case 'x':
@@ -74,9 +75,11 @@ def gameLoop():
         print(prompts.interaction)
         res.animation()
 
-        if glob_timer == 5:
+        if glob_timer % 2:
             # Periodically modify stats
             Tamagotchi.const_mod_stat()
+            if glob_timer == 200:
+                glob_timer = 0
 
         if asyncInput.lastUserInput == 'x':
             # Exit the game loop
@@ -124,7 +127,7 @@ def main():
 
             case 'o':
                 # Show options
-                print("These are options!")
+                print("These are the options!")
                 time.sleep(MENU_SLEEP_TIME)
 
             case 'x':
