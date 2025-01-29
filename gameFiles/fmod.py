@@ -1,5 +1,6 @@
 import os
 from os import path, listdir
+import shutil
 import pickle
 import time
 
@@ -53,7 +54,7 @@ def del_game():
     sav_name = input("Give File Name you want to delete: ")
     # try to delete the user given file otherwise inform the user
     try:
-        os.remove(sav_dir+sav_name)
+        shutil.rmtree(sav_dir+sav_name)
         return True
     except:
         print("file couldn't be deleted, it doesn't exist")
