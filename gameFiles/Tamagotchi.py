@@ -1,13 +1,14 @@
 import os
 import random as rng
 
+import gameFiles.Items as Items
 import gameFiles.res as res
 import main
 
 MAX_GAIN = 40
 MIN_GAIN = 20
 
-MAX_LOSS = -.25
+MAX_LOSS = -.5
 MIN_LOSS = 0
 
 health = ["Health", 100.0]
@@ -22,27 +23,36 @@ def mod_stat(stat):
     mods the given stat by +50 and the rest -10
     Todo: modifiers
     """
-    for i in range(len(stats)):
-        if i == stat:
-            stats[i][1] += rng.uniform(MIN_GAIN, MAX_GAIN)
-            if stats[i][1] >= 100:
-                stats[i][1] = 100
-        else:
-            stats[i][1] += -5
+    for item in Items.itemLst:
+        for i in range(len(stats)):
+            if item.invent == True:
+                print(item.effect[i])
+                input()
+                stats[i][1] += item.effect[i]
+            if i == stat:
+                stats[i][1] += rng.uniform(MIN_GAIN, MAX_GAIN)
+                if stats[i][1] >= 100:
+                    stats[i][1] = 100
+            else:
+                stats[i][1] += -5
 
-            if stats[i][1] <= 0:
-                death(i)
+                if stats[i][1] <= 0:
+                    death(i)
 
 def const_mod_stat():
     """
     Constantly mod the stats of the Tamagotchi
     Todo: modifiers
     """
-    for i in range(len(stats)):
-        stats[i][1] += round(rng.uniform(MIN_LOSS, MAX_LOSS), 2)
-        
-        if stats[i][1] <= 0:
-            death(i)
+    for item in Items.itemLst:
+        for i in range(len(stats)):
+            stats[i][1] += round(rng.uniform(MIN_LOSS, MAX_LOSS), 2)
+            if item.invent == True:
+                stats[i][1] += item.effect[i]
+            if stats[i][1] >= 100:
+                stats[i][1] = 100
+            if stats[i][1] <= 0:
+                death(i)
 
 def death(stat):
     """

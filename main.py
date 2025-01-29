@@ -1,8 +1,11 @@
+# Import necessary python std modules
 import os
 import time
 import threading
 
+# import own Modules
 import gameFiles.Tamagotchi as Tamagotchi
+import gameFiles.Items as Items
 import gameFiles.fmod as fmod
 import gameFiles.prompts as prompts
 import gameFiles.res as res
@@ -83,14 +86,27 @@ def gameLoop():
             asyncInput.lock.release()
         
         if asyncInput.lastUserInput == 'i':
-            print("THE INVENTORY WILL BE HERE!!! (WIP)")
-            time.sleep(1.5)
+            for item in Items.itemLst:
+                if item.invent == True:
+                    print(f"name: {item.name}")
+                    print(f"description: {item.desc}")
+                    print("------------------------------------------------------------")
+            input("any key to continue")
+           
             asyncInput.lastUserInput = ''
             asyncInput.lock.release()
 
         if asyncInput.lastUserInput == 't':
-            print("THE STORE WILL BE HERE!!! (WIP)")
-            time.sleep(1.5)
+            for item in Items.itemLst:
+                if item.invent == False:
+                    print(f"name: {item.name}\nprice: {item.price}\t description: {item.desc}")
+            storeIn = input(prompts.store)
+
+            for item in Items.itemLst:
+                if item.name[0].lower() == storeIn:
+                    item.invent = True
+                    print(item.name)
+            
             asyncInput.lastUserInput=""
             asyncInput.lock.release()
 
