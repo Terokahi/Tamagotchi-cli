@@ -4,7 +4,7 @@ for now, nothing really, besides lose stats and die (and dance! (but only on CLI
 # What's next?
 multiple things, in order of priority:
 - actually being able to save and load a game (done)
-- rework saving to also save the inventory
+- rework saving to also save the inventory (done)
 - being able to access the shop and buying stuff (done)
 - Implementing Tkinter so you can choose if you want a gui or cli (partially done)
 - bought Items should have the desired effect on the Tamagotchi (done)
