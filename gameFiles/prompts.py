@@ -1,8 +1,7 @@
 
 
 # menu inputs
-menu = """
-(s)tart
+menu = """(s)tart
 (l)oad
 (d)elete
 
@@ -12,7 +11,10 @@ e(x)it
 """
 
 # game inputs
-interaction = """
-(h)eal      (f)eed      (p)lay      (s)leep     
-s(t)ore     s(a)ve      e(x)it
+interaction = """(h)eal      (f)eed      (p)lay      (s)leep     
+(i)nventory s(t)ore     s(a)ve      e(x)it
+"""
+
+store = """
+(q)uit otherwise first Item letter to buy
 """
