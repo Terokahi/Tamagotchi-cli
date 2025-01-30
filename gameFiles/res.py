@@ -18,15 +18,6 @@ sprite ="""
   \ /-\ /
    V   V
 """
-sprite_left_left = """
-  .^._.^.
-  | . . |
- ( '---' )
- .'     '.
- |/     \|
- | /-\ -/
- |/   |/
-"""
 
 sprite_left = """
   .^._.^.
@@ -94,9 +85,8 @@ def animation():
   
   # output the current "Frame"
   print(sprite_idle[sprite_disp], end="\r")
-  for i in range(17):
+  for i in range(8): # Set back to 17
     print(CURSOR_UP + CLEAR, end="")
 
   # raise this to show the next sprite
   sprite_disp += 1
-  time.sleep(0.5)

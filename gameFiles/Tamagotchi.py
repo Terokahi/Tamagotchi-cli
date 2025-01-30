@@ -26,8 +26,6 @@ def mod_stat(stat):
     for item in Items.itemLst:
         for i in range(len(stats)):
             if item.invent == True:
-                print(item.effect[i])
-                input()
                 stats[i][1] += item.effect[i]
             if i == stat:
                 stats[i][1] += rng.uniform(MIN_GAIN, MAX_GAIN)
